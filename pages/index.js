@@ -1,23 +1,5 @@
+import { MongoClient } from "mongodb";
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "A first Meetup",
-    image:
-      "https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Feature-Akshardham-Temple.jpg",
-    address: "Some address",
-    description: "This is a first meetup",
-  },
-  {
-    id: "m2",
-    title: "A second Meetup",
-    image:
-      "https://www.tourmyindia.com/blog//wp-content/uploads/2020/11/Feature-Akshardham-Temple.jpg",
-    address: "Some another address",
-    description: "This is a second meetup",
-  },
-];
 
 const HomePage = (props) => {
   return <MeetupList meetups={props.meetups} />;
@@ -35,12 +17,29 @@ const HomePage = (props) => {
 // };
 
 export const getStaticProps = async () => {
-    return {
-        props: {
-            meetups: DUMMY_MEETUPS
-        },
-        revalidate: 10
-    }
-}
+  const client = await MongoClient.connect(
+    "mongodb+srv://trishalaghetiya:Th1OXj3NFcM1kTug@cluster0.fer7r1e.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString()
+      })),
+    },
+    revalidate: 10,
+  };
+};
 
 export default HomePage;

@@ -4,6 +4,23 @@ import classes from "./TodoItem.module.css";
 
 function TodoItem(props) {
   const router = useRouter();
+
+  const deleteHandler= async () => {
+    const response = await fetch("/api/delete-todo", {
+      method: "DELETE",
+      body: JSON.stringify(props.id),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    router.push("/");
+  }
+
   const doneHandler = async () => {
     const response = await fetch("/api/edit-todo", {
       method: "PUT",
@@ -26,8 +43,7 @@ function TodoItem(props) {
         <div className={classes.content}>
           <h3>{props.title}</h3>
           {!props.isDone && <button onClick={doneHandler}>Done</button>}
-          {/* {!props.isDone && <button>Delete</button>}
-          {!props.isDone && <button>Edit</button>} */}
+          {!props.isDone && <button onClick={deleteHandler}>Delete</button>}
         </div>
       </Card>
     </li>

@@ -1,18 +1,20 @@
-import Link from 'next/link';
-import classes from './MainNavigation.module.css';
+import Link from "next/link";
+import classes from "./MainNavigation.module.css";
 
 function MainNavigation() {
-
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>React Meetups</div>
+      <div className={classes.logo}>Daily Tasks</div>
       <nav>
         <ul>
           <li>
-            <Link href='/'>All Meetups</Link>
+            <Link href="/">All Todos</Link>
           </li>
           <li>
-            <Link href='/new-meetup'>Add New Meetup</Link>
+            <Link href="/new-todo">Add Todo</Link>
+          </li>
+          <li>
+            <Link href="/completed-todos">Completed Todos</Link>
           </li>
         </ul>
       </nav>

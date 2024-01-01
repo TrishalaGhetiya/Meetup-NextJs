@@ -26,8 +26,8 @@ function TodoItem(props) {
         <div className={classes.content}>
           <h3>{props.title}</h3>
           {!props.isDone && <button onClick={doneHandler}>Done</button>}
-          {!props.isDone && <button>Delete</button>}
-          {!props.isDone && <button>Edit</button>}
+          {/* {!props.isDone && <button>Delete</button>}
+          {!props.isDone && <button>Edit</button>} */}
         </div>
       </Card>
     </li>
